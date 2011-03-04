@@ -1,6 +1,7 @@
-/** Scale.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * A musical scale to break up the octave into equally spaced semitones.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 import java.util.*;

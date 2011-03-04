@@ -1,6 +1,7 @@
-/** A4.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * Play A4.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 public class A4 {
@@ -13,7 +14,7 @@ public class A4 {
 		chord.addNote("A4");
 		for (int i = 0; i < 100; i++) {
 			chord.playNotes();
-		}
-	}
+		} // end for
+	} // end main()
 
-}
+} // end A4 class

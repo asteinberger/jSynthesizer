@@ -1,11 +1,11 @@
-/** ChordTest.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * Test the functionality of the Chord class.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 import java.util.HashMap;
 import java.util.Random;
-
 
 public class ChordTest {
 

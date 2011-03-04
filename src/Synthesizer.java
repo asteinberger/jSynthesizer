@@ -1,10 +1,11 @@
-/** Synthesizer.java
- * Modified by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * Synthesize sound using the Java Sound API.
  * The following program was originally inspired by R. G. Baldwin's AudioSynth01.java,
  * and modified portions of his code have been included in this program. The source code
  * for R. G. Baldwin's original synthesizer program can be found at
- * http://www.developer.com/java/other/article.php/2226701#Complete%20Program%20Listings
+ * http://www.developer.com/java/other/article.php/2226701#Complete%20Program%20Listings.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 import javax.sound.sampled.*;
@@ -12,11 +13,6 @@ import java.io.*;
 import java.nio.*;
 import java.util.Arrays;
 
-/**
- * Synthesize sound using the Java Sound API
- * @author asteinb1
- *
- */
 public class Synthesizer {
 
 	// General instance variables used to create a SourceDataLine object

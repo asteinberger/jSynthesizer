@@ -1,6 +1,7 @@
-/** Chord.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * A musical chord for playing a series of notes.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 import java.util.ArrayList;

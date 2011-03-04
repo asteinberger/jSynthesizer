@@ -14,19 +14,22 @@
  * one of the requirements of synchronization (must synchronize on an object
  * as opposed to a value e.g. a primitive data type).
  * 
- * @author andrew
+ * GNU General Public License v3, February 2011.
+ * 
+ * @author Adam Steinberger
  *
  */
 
 public class Latch {
-  private final Object synchObj = new Object();
-  private int count;
-
-  public Latch(int numThreads) {
-    synchronized (synchObj) {
-      this.count = numThreads;
-    }
-  }
+	
+	private final Object synchObj = new Object();
+	private int count;
+	
+	public Latch(int numThreads) {
+		synchronized (synchObj) {
+			this.count = numThreads;
+		}
+	}
   
   // call this on the main thread while the background threads
   // complete their work

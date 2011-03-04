@@ -1,6 +1,7 @@
-/** TwelveToneTest.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * Test the functionality of the TwelveTone class.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 

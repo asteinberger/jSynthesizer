@@ -1,6 +1,7 @@
-/** EarTraining.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * An application for training your ears to hear musical intervals.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 import java.awt.BorderLayout;
@@ -15,7 +16,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 public class EarTraining extends JFrame {
 

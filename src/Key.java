@@ -1,6 +1,7 @@
-/** Key.java
- * Created by Adam Steinberger
- * GNU General Public License v3, February 2011
+/**
+ * A musical key for using major and minor scales.
+ * GNU General Public License v3, February 2011.
+ * @author Adam Steinberger
  */
 
 public class Key {
