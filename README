@@ -1,0 +1,9 @@
+Name: jSynthesizer.
+Author: Adam Steinberger.
+Homepage: http://amsteinberger.wordpress.com/code/jsynthesizer/.
+GitHub: https://github.com/asteinberger/jSynthesizer/.
+Google Code: http://code.google.com/p/jsynthesizer/.
+
+JSynthesizer is a java synthesizer. Synthesize music using the jSynthesizer Java API for use with the Java Sound API.
+
+To use jSynthesizer in a java project, copy all the files from the jSynthesizer source code directory and paste them into the source code directory of the project you want to use jSynthesizer with.
