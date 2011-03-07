@@ -11,14 +11,14 @@ public class KeyTest {
 	 */
 	public static void main(String[] args) {
 		Key key = new Key("C", "major", 200.0, 1.0);
-		Chord tonic = key.getNote(1,3);
-		Chord supertonic = key.getNote(2,3);
-		Chord mediant = key.getNote(3,3);
-		Chord subdominant = key.getNote(4,3);
-		Chord dominant = key.getNote(5,3);
-		Chord submediant = key.getNote(6,3);
-		Chord leadingTone = key.getNote(7,3);
-		Chord octave = key.getNote(1,4);
+		Chord tonic = key.note(1,3);
+		Chord supertonic = key.note(2,3);
+		Chord mediant = key.note(3,3);
+		Chord subdominant = key.note(4,3);
+		Chord dominant = key.note(5,3);
+		Chord submediant = key.note(6,3);
+		Chord leadingTone = key.note(7,3);
+		Chord octave = key.note(1,4);
 		tonic.playNotes();
 		supertonic.playNotes();
 		mediant.playNotes();

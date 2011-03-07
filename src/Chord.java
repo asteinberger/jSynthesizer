@@ -26,6 +26,15 @@ public class Chord {
 		this.scale = this.twelveTone.getScale();
 		this.synthesizer = this.scale.getSynth();
 	}
+	
+	public Chord(String[] notes, double bpm, double beats) {
+		this.twelveTone = new TwelveTone(bpm,beats);
+		this.scale = this.twelveTone.getScale();
+		this.synthesizer = this.scale.getSynth();
+		for (int i = 0; i < notes.length; i++) {
+			addNote(notes[i]);
+		}
+	}
 
 	public ArrayList<String> getNotes() {
 		return notes;
@@ -131,11 +140,30 @@ public class Chord {
 				freqs[i] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
 			}
 			this.synthesizer.tones(freqs);
+//			System.out.println(Arrays.toString(freqs));
+			System.out.println(this.notes);
 			this.synthesizer.play();
 		}
 		return result;
 	}
 	
+	public boolean playNotes(double beats) {
+		boolean result = false;
+		if (!this.notes.isEmpty()) {
+			result = true;
+			this.getTwelveTone().getScale().getSynth().setBeats(beats);
+			double[] freqs = new double [this.notes.size()];
+			for (int i = 0; i < this.notes.size(); i++) {
+				freqs[i] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
+			}
+			this.synthesizer.tones(freqs);
+//			System.out.println(Arrays.toString(freqs));
+			System.out.println(this.notes);
+			this.synthesizer.play();
+		}
+		return result;
+	}
+
 	public boolean playMelodic() {
 		boolean result = false;
 		if (!this.notes.isEmpty()) {
@@ -149,10 +177,32 @@ public class Chord {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "" + notes;
+	}
+	
+	public boolean playMelodic(boolean ascend, double beats) {
+		boolean result = false;
+		if (!this.notes.isEmpty()) {
+			result = true;
+			double[] freqs = new double [1];
+			if (ascend) {
+				for (int i = 0; i < this.notes.size(); i++) {
+					freqs[0] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
+					this.synthesizer.tones(freqs);
+					this.synthesizer.play();
+				}
+			} else {
+				for (int i = this.notes.size()-1; i > 0; i--) {
+					freqs[0] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
+					this.synthesizer.tones(freqs);
+					this.synthesizer.play();
+				}
+			}
+		}
+		return result;
 	}
 
 }

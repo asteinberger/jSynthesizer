@@ -348,6 +348,9 @@ public class Synthesizer {
 		for (int count = 0; count < this.samples; count++) {
 			double time = count/this.sampleRate;
 			double value = wave(freq,time,this.wave);
+			for (int i = 1; i < 4; i++) {
+				value += i/8*wave((2^i)*freq,time,this.wave);
+			} // end for
 			double gain = this.maxVolume*Math.exp(-time);
 //			double[] output = {freq,gain*value};
 //			System.out.println(Arrays.toString(output));
@@ -355,26 +358,6 @@ public class Synthesizer {
 		} // end for
 		
 	} // end tone()
-	
-	public double unitGenerator(double freq, double amp, double time) {
-		return amp*wave(freq,time,this.wave);
-	} // end unitGenHelper()
-	
-	public void vibrato(double centerFreq, double centerAmp, double modRatio, double indexFM) {
-		wrapBuffer();
-		this.channels = 1; // Java allows 1 or 2
-		double modFreq = modRatio * centerFreq;
-		double deltaFreq = indexFM * modFreq;
-//		System.out.println(modFreq);
-		for (int count = 0; count < this.samples; count++) {
-			double time = count/this.sampleRate;
-			double freq = centerFreq + unitGenerator(modFreq,deltaFreq,time);
-			double value = unitGenerator(freq,centerAmp,time);
-//			double[] output = {freq,modFreq,value};
-//			System.out.println(Arrays.toString(output));
-			this.shortBuffer.put((short) (value));
-		} // end for
-	} // end vibrato()
 	
 	/**
 	 * Generate a monaural tone of multiple frequencies
@@ -404,6 +387,26 @@ public class Synthesizer {
 		} // end for
 		
 	} // end tones()
+	
+	public double unitGenerator(double freq, double amp, double time) {
+		return amp*wave(freq,time,this.wave);
+	} // end unitGenHelper()
+	
+	public void vibrato(double centerFreq, double centerAmp, double modRatio, double fmIndex) {
+		wrapBuffer();
+		this.channels = 1; // Java allows 1 or 2
+		double modFreq = modRatio * centerFreq;
+		double deltaFreq = fmIndex * modFreq;
+//		System.out.println(modFreq);
+		for (int count = 0; count < this.samples; count++) {
+			double time = count/this.sampleRate;
+			double freq = centerFreq + unitGenerator(modFreq,deltaFreq,time);
+			double value = unitGenerator(freq,centerAmp,time);
+//			double[] output = {freq,modFreq,value};
+//			System.out.println(Arrays.toString(output));
+			this.shortBuffer.put((short) (value));
+		} // end for
+	} // end vibrato()
 	
 	public String toString() {
 		return "Synthesizer [audioFormat=" + audioFormat + ", audioInputStream="

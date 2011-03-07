@@ -26,6 +26,9 @@ public class SynthesizerTest {
 		synthesizer.tones(freqs);
 		synthesizer.play();
 		
+		synthesizer.tone(0.0);
+		synthesizer.play();
+		
 		synthesizer.vibrato(440.0, 8000.0, 0.2, 6.0);
 //		System.out.println(synthesizer);
 		synthesizer.play();

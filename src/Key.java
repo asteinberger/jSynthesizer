@@ -72,11 +72,15 @@ public class Key {
 	
 	public Chord newChord() {
 		Chord chord = new Chord(this.synthesizer.getBpm(), this.synthesizer.getBeats());
-		chord.clear();
 		return chord;
 	}
 	
-	public Chord getNote(int degree, int octave) {
+	public Chord newChord(String[] notes) {
+		Chord chord = new Chord(notes, this.synthesizer.getBpm(), this.synthesizer.getBeats());
+		return chord;
+	}
+	
+	public Chord note(int degree, int octave) {
 		Chord result = newChord();
 		int midiNum = this.twelveTone.getNoteToMidi().get(this.tonic + octave);
 		String note = this.twelveTone.getMidiToNote().get(midiNum+this.distances[degree-1]);
@@ -87,12 +91,21 @@ public class Key {
 	public Chord triad(int degree, int octave) {
 		Chord result = newChord();
 		int midiNum = this.twelveTone.getNoteToMidi().get(this.tonic + octave);
-		String note1 = this.twelveTone.getMidiToNote().get(midiNum+this.distances[degree-1]);
-		String note2 = this.twelveTone.getMidiToNote().get(midiNum+this.distances[degree+1]);
-		String note3 = this.twelveTone.getMidiToNote().get(midiNum+this.distances[degree+3]);
-		result.addNote(note1);
-		result.addNote(note2);
-		result.addNote(note3);
+		for (int i = 0; i < 3; i++) {
+			String note = this.twelveTone.getMidiToNote().get(midiNum+this.distances[degree+2*i-1]);
+			result.addNote(note);
+		}
+		return result;
+	}
+	
+	public Chord triad(int degree, int octave, int inversion) {
+		Chord result = newChord();
+		int midiNum = this.twelveTone.getNoteToMidi().get(this.tonic + octave);
+		for (int i = 0; i < 3; i++) {
+			int j = degree - 1 + 2*((i+inversion) % 3);
+			String note = this.twelveTone.getMidiToNote().get(midiNum+this.distances[j]);
+			result.addNote(note);
+		}
 		return result;
 	}
 	
