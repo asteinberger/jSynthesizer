@@ -348,10 +348,9 @@ public class Synthesizer {
 		for (int count = 0; count < this.samples; count++) {
 			double time = count/this.sampleRate;
 			double value = wave(freq,time,this.wave);
-			for (int i = 1; i < 4; i++) {
-				value += i/8*wave((2^i)*freq,time,this.wave);
-			} // end for
-			double gain = this.maxVolume*Math.exp(-time);
+			value += 0.03125*wave(2*freq, time, this.wave);
+			value += 0.015625*wave(4*freq, time, this.wave);
+			double gain = this.maxVolume*Math.exp(-time*3.5);
 //			double[] output = {freq,gain*value};
 //			System.out.println(Arrays.toString(output));
 			this.shortBuffer.put((short) (gain*value));
@@ -375,9 +374,8 @@ public class Synthesizer {
 			
 			for (int count2 = 0; count2 < freqs.length; count2++) {
 				vals[count2] = wave(freqs[count2],time,this.wave);
-				for (int h = 1; h < 4; h++) {
-					vals[count2] += (4-h)/8*wave((2^h)*freqs[count2], time, this.wave);
-				} // end for
+				vals[count2] += 0.03125*wave(2*freqs[count2], time, this.wave);
+				vals[count2] += 0.015625*wave(4*freqs[count2], time, this.wave);
 			} // end for
 			
 			double value = average(vals);

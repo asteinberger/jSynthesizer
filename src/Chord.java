@@ -169,6 +169,7 @@ public class Chord {
 		if (!this.notes.isEmpty()) {
 			result = true;
 			double[] freqs = new double [1];
+			System.out.println(this.notes);
 			for (int i = 0; i < this.notes.size(); i++) {
 				freqs[0] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
 				this.synthesizer.tones(freqs);
@@ -183,21 +184,21 @@ public class Chord {
 		return "" + notes;
 	}
 	
-	public boolean playMelodic(boolean ascend, double beats) {
+	public boolean playMelodic(boolean ascend) {
 		boolean result = false;
 		if (!this.notes.isEmpty()) {
 			result = true;
-			double[] freqs = new double [1];
+			System.out.println(this.notes);
 			if (ascend) {
 				for (int i = 0; i < this.notes.size(); i++) {
-					freqs[0] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
-					this.synthesizer.tones(freqs);
+					double freq = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
+					this.synthesizer.tone(freq);
 					this.synthesizer.play();
 				}
 			} else {
-				for (int i = this.notes.size()-1; i > 0; i--) {
-					freqs[0] = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
-					this.synthesizer.tones(freqs);
+				for (int i = this.notes.size()-1; i >= 0; i--) {
+					double freq = this.twelveTone.getNoteToFreq().get(this.notes.get(i));
+					this.synthesizer.tone(freq);
 					this.synthesizer.play();
 				}
 			}
