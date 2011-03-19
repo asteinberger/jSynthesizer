@@ -47,8 +47,8 @@ public class EarTraining extends JFrame {
 	private JCheckBoxMenuItem interval11 = new JCheckBoxMenuItem("Major 7th");
 	private JPanel panel = new JPanel();
 	private JLabel label = new JLabel("Guess the Interval!", JLabel.CENTER);
-	private JButton play = new JButton("New Chord");
-	private JButton repeat = new JButton("Repeat Chord");
+	private JButton play = new JButton("New Interval");
+	private JButton repeat = new JButton("Repeat Interval");
 	private String[] intervals = {"unison", "minor 2nd", "major 2nd", "minor 3rd",
 			"major 3rd", "perfect 4th", "tritone", "perfect 5th", "minor 6th",
 			"major 6th", "minor 7th", "major 7th", "octave"};
@@ -165,37 +165,32 @@ public class EarTraining extends JFrame {
 		
 		Chord result = chord;
 		Random generator = new Random();
-		int[] random = new int [2];
 		String[] note = new String [2];
 		
-		int ceiling = midiNum.length-25;
-		int floor = 60;
+		int ceiling = midiNum.length-13;
+		int floor = 21;
 		
-		random[0] = generator.nextInt(ceiling-floor)+floor;
-		note[0] = midiToNote.get(random[0]);
+		int pitch0 = generator.nextInt(ceiling-floor)+floor;
+		note[0] = midiToNote.get(pitch0);
 		result.addNote(note[0]);
 		
-		for (int i = 1; i < 2; i++) {
-			
-			if (random[i-1]+13 < midiNum.length-12) {
-				ceiling = random[i-1]+13;
-			} else {
-				ceiling = midiNum.length-12;
-			} // end if
-			
-			random[i] = generator.nextInt(ceiling-random[i-1])+random[i-1];
-			note[i] = midiToNote.get(random[i]);
-			
-			Chord test = new Chord(note,100.0,1.0);
-			String testInt = test.intervals("medium").get(0);
-			
-			if (playInts.get(testInt)) {
-				result.addNote(note[i]);
-			} else {
-				i--;
-			} // end if
-			
-		} // end for
+		int pitch1 = generator.nextInt(12)+pitch0;
+		note[1] = midiToNote.get(pitch1);
+//		result.addNote(note[1]);
+		
+		Chord test = new Chord(note,100.0,1.0);
+		String testInt = test.intervals("medium").get(0);
+		
+		int loop = 0;
+		while (!playInts.get(testInt)) {
+			pitch1 = generator.nextInt(12)+pitch0;
+			note[1] = midiToNote.get(pitch1);
+			test = new Chord(note,100.0,1.0);
+			testInt = test.intervals("medium").get(0);
+			System.out.println(loop++);
+		} // end while
+		
+		result.addNote(note[1]);
 		
 		return result;
 		
