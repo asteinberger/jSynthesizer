@@ -5,6 +5,8 @@
  */
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,18 +20,30 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextArea;
 
 public class EarTraining extends JFrame {
 
 	private static final long serialVersionUID = 8816685150457621036L;
 	private JMenuBar menuBar = new JMenuBar();
-	private JMenu options = new JMenu("Options");
+	private JMenu optionsMenu = new JMenu("Options");
+	private JMenu helpMenu = new JMenu("Help");
+	private JDialog aboutDiag = new JDialog(this, "About the Ear Training App");
+	private JDialog helpDiag = new JDialog(this, "Ear Training Help");
+	private JMenuItem about = new JMenuItem("About");
+	private JPanel aboutPanel = new JPanel();
+	private JTextArea aboutText = new JTextArea(5,25);
+	private JMenuItem help = new JMenuItem("Program Help");
+	private JPanel helpPanel = new JPanel();
+	private JTextArea helpText = new JTextArea(5,25);
 	private ButtonGroup playType;
 	private JRadioButtonMenuItem melodicUp = new JRadioButtonMenuItem("Melodic Up");
 	private JRadioButtonMenuItem melodicDown = new JRadioButtonMenuItem("Melodic Down");
@@ -49,7 +63,7 @@ public class EarTraining extends JFrame {
 	private JLabel label = new JLabel("Guess the Interval!", JLabel.CENTER);
 	private JButton play = new JButton("New Interval");
 	private JButton repeat = new JButton("Repeat Interval");
-	private String[] intervals = {"unison", "minor 2nd", "major 2nd", "minor 3rd",
+	private String[] intervals = {"Interval Guess", "unison", "minor 2nd", "major 2nd", "minor 3rd",
 			"major 3rd", "perfect 4th", "tritone", "perfect 5th", "minor 6th",
 			"major 6th", "minor 7th", "major 7th", "octave"};
 	private JComboBox comboInts = new JComboBox(this.intervals);
@@ -65,16 +79,16 @@ public class EarTraining extends JFrame {
 		this.melodicUp.setSelected(true);
 		this.melodicUp.setMnemonic(KeyEvent.VK_U);
 		this.playType.add(this.melodicUp);
-		this.options.add(this.melodicUp);
+		this.optionsMenu.add(this.melodicUp);
 		this.melodicDown.setSelected(false);
 		this.melodicDown.setMnemonic(KeyEvent.VK_D);
 		this.playType.add(this.melodicDown);
-		this.options.add(this.melodicDown);
+		this.optionsMenu.add(this.melodicDown);
 		this.harmonic.setSelected(false);
 		this.harmonic.setMnemonic(KeyEvent.VK_H);
 		this.playType.add(this.harmonic);
-		this.options.add(this.harmonic);
-		this.options.addSeparator();
+		this.optionsMenu.add(this.harmonic);
+		this.optionsMenu.addSeparator();
 		
 		CheckBoxListener listenCheck = new CheckBoxListener();
 		this.interval01.setSelected(true);
@@ -112,17 +126,54 @@ public class EarTraining extends JFrame {
 		this.interval09.addItemListener(listenCheck);
 		this.interval10.addItemListener(listenCheck);
 		this.interval11.addItemListener(listenCheck);
-		this.options.add(this.interval01);
-		this.options.add(this.interval02);
-		this.options.add(this.interval03);
-		this.options.add(this.interval04);
-		this.options.add(this.interval05);
-		this.options.add(this.interval06);
-		this.options.add(this.interval07);
-		this.options.add(this.interval08);
-		this.options.add(this.interval09);
-		this.options.add(this.interval10);
-		this.options.add(this.interval11);
+		this.optionsMenu.add(this.interval01);
+		this.optionsMenu.add(this.interval02);
+		this.optionsMenu.add(this.interval03);
+		this.optionsMenu.add(this.interval04);
+		this.optionsMenu.add(this.interval05);
+		this.optionsMenu.add(this.interval06);
+		this.optionsMenu.add(this.interval07);
+		this.optionsMenu.add(this.interval08);
+		this.optionsMenu.add(this.interval09);
+		this.optionsMenu.add(this.interval10);
+		this.optionsMenu.add(this.interval11);
+		
+		this.menuBar.add(this.helpMenu);
+		this.helpMenu.setMnemonic(KeyEvent.VK_H);
+		PopupListener listenPopup = new PopupListener(this.aboutDiag);
+		this.about.addActionListener(listenPopup);
+		this.about.setMnemonic(KeyEvent.VK_A);
+		this.helpMenu.add(this.about);
+		this.aboutDiag.add(this.aboutPanel);
+		this.aboutPanel.add(this.aboutText);
+		this.aboutText.setText("EAR TRAINING: An application for training your ears to hear musical intervals.\n" + 
+				"Created by Adam Steinberger.\n" + 
+				"GNU General Public License v3, February 2011.");
+		this.aboutDiag.setSize(315,115);
+		this.aboutPanel.setLayout(new FlowLayout());
+		this.aboutText.setAutoscrolls(true);
+		this.aboutText.setFont(new Font("Serif", Font.PLAIN, 16));
+		this.aboutText.setLineWrap(true);
+		this.aboutText.setWrapStyleWord(true);
+		this.aboutText.setEditable(false);
+		
+		PopupListener listenPopup2 = new PopupListener(this.helpDiag);
+		this.help.addActionListener(listenPopup2);
+		this.help.setMnemonic(KeyEvent.VK_H);
+		this.helpMenu.add(this.help);
+		this.helpDiag.add(this.helpPanel);
+		this.helpPanel.add(this.helpText);
+		this.helpText.setText("To play a new interval, click \"New Interval\". " + 
+				"To repeat the interval, click \"Repeat Interval\". " + 
+				"To guess the interval, select your guess from the \"Interval Guess\" combobox. " + 
+				"To change the interval type played or change which intervals to play, use the \"Options\" menu.");
+		this.helpDiag.setSize(315,130);
+		this.helpPanel.setLayout(new FlowLayout());
+		this.helpText.setAutoscrolls(true);
+		this.helpText.setFont(new Font("Serif", Font.PLAIN, 16));
+		this.helpText.setLineWrap(true);
+		this.helpText.setWrapStyleWord(true);
+		this.helpText.setEditable(false);
 		
 		RadioListener listenRadio = new RadioListener();
 		this.melodicUp.setActionCommand("melodic up");
@@ -132,8 +183,8 @@ public class EarTraining extends JFrame {
 		this.melodicDown.addActionListener(listenRadio);
 		this.harmonic.addActionListener(listenRadio);
 		
-		this.menuBar.add(this.options);
-		this.options.setMnemonic(KeyEvent.VK_O);
+		this.menuBar.add(this.optionsMenu);
+		this.optionsMenu.setMnemonic(KeyEvent.VK_O);
 		this.setJMenuBar(this.menuBar);
 		
 		this.add(this.panel, BorderLayout.CENTER);
@@ -176,18 +227,15 @@ public class EarTraining extends JFrame {
 		
 		int pitch1 = generator.nextInt(12)+pitch0;
 		note[1] = midiToNote.get(pitch1);
-//		result.addNote(note[1]);
 		
 		Chord test = new Chord(note,100.0,1.0);
 		String testInt = test.intervals("medium").get(0);
 		
-		int loop = 0;
 		while (!playInts.get(testInt)) {
 			pitch1 = generator.nextInt(12)+pitch0;
 			note[1] = midiToNote.get(pitch1);
 			test = new Chord(note,100.0,1.0);
 			testInt = test.intervals("medium").get(0);
-			System.out.println(loop++);
 		} // end while
 		
 		result.addNote(note[1]);
@@ -291,6 +339,27 @@ public class EarTraining extends JFrame {
 			} else {
 				chord.playNotes();
 			} // end if
+		} // end actionPerformed()
+		
+	} // end RepeatListener class
+	
+	private class PopupListener implements ActionListener {
+		
+		private JDialog d = new JDialog();
+		
+		public PopupListener(JDialog d) {
+			this.d = d;
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if (!aboutDiag.isVisible()) {
+	            // show the popup if not visible
+	            this.d.setVisible(true);
+	            this.d.requestFocus();
+	        } else {
+	            // hide it otherwise
+	        	this.d.setVisible(false);
+	        }
 		} // end actionPerformed()
 		
 	} // end RepeatListener class

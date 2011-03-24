@@ -324,7 +324,7 @@ public class Synthesizer {
 			// Create a thread to play back the data and start it running.  It will run until all
 			// the data has been played back
 			Latch l = new Latch(1);
-			ListenThread lt = new ListenThread(l);
+			ListenThread lt = new ListenThread(l,this.sourceDataLine,this.audioFormat,this.audioInputStream);
 			Thread t = new Thread(lt);
 			t.start();
 			l.awaitZero();
@@ -351,6 +351,13 @@ public class Synthesizer {
 			value += 0.03125*wave(2*freq, time, this.wave);
 			value += 0.015625*wave(4*freq, time, this.wave);
 			double gain = this.maxVolume*Math.exp(-time*3.5);
+//			System.out.println(freq);
+			if (freq<260.0) {
+//				gain += 8000.0;
+				value += 0.03125*wave(8*freq, time, this.wave);
+				value += 0.03125*wave(16*freq, time, this.wave);
+				value += 0.03125*wave(32*freq, time, this.wave);
+			}
 //			double[] output = {freq,gain*value};
 //			System.out.println(Arrays.toString(output));
 			this.shortBuffer.put((short) (gain*value));
@@ -380,6 +387,11 @@ public class Synthesizer {
 			
 			double value = average(vals);
 			double gain = this.maxVolume*Math.exp(-time*3.5);
+//			System.out.println(freqs[0]);
+			if (freqs[0]<260.0) {
+				System.out.println("there");
+				gain += 1000.0;
+			}
 			this.shortBuffer.put((short) (gain*value));
 			
 		} // end for
@@ -426,11 +438,17 @@ public class Synthesizer {
 		
 		//This is a working buffer used to transfer the data between the AudioInputStream and
 		// the SourceDataLine.  The size is rather arbitrary.
-		byte playBuffer[] = new byte[16384];
+		private byte playBuffer[] = new byte[16384];
 		private Latch listenLatch;
+		private SourceDataLine sourceDataLine;
+		private AudioFormat audioFormat;
+		private AudioInputStream audioInputStream;
 		
-		public ListenThread(Latch l) {
+		public ListenThread(Latch l, SourceDataLine sdl, AudioFormat af, AudioInputStream ais) {
 			this.listenLatch = l;
+			this.sourceDataLine = sdl;
+			this.audioFormat = af;
+			this.audioInputStream = ais;
 		} // end ListenThread constructor
 
 		public void run() {
@@ -438,31 +456,31 @@ public class Synthesizer {
 			try {
 				
 				// Open and start the SourceDataLine
-				sourceDataLine.open(audioFormat);
-				sourceDataLine.start();
+				this.sourceDataLine.open(this.audioFormat);
+				this.sourceDataLine.start();
 
 				int cnt;
 
 				// Transfer the audio data to the speakers
-				while ((cnt = audioInputStream.read(playBuffer, 0, playBuffer.length)) != -1) {
+				while ((cnt = this.audioInputStream.read(this.playBuffer, 0, this.playBuffer.length)) != -1) {
 					
 					// Keep looping until the input read method returns -1 for empty stream.
 					if (cnt > 0) {
 						
 						// Write data to the internal buffer of the data line where it will be
 						// delivered to the speakers in real time
-						sourceDataLine.write(playBuffer, 0, cnt);
+						this.sourceDataLine.write(this.playBuffer, 0, cnt);
 						
 					} // end if
 					
 				} // end while
 
 				// Block and wait for internal buffer of the SourceDataLine to become empty.
-				sourceDataLine.drain();
+				this.sourceDataLine.drain();
 
 				// Finish with the SourceDataLine
-				sourceDataLine.stop();
-				sourceDataLine.close();
+				this.sourceDataLine.stop();
+				this.sourceDataLine.close();
 				this.listenLatch.countDown();
 				
 			} catch (Exception e) {

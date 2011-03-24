@@ -110,27 +110,6 @@ public class Chord {
 		return result;
 	} // end intervals()
 	
-//	public ArrayList<String> chords() {
-//		ArrayList<String> result = new ArrayList<String>();
-//		ArrayList<String> intervals = this.intervals();
-//		for (int i = 0; i < intervals.size()-1; i++) {
-//			String interval1 = intervals.get(i);
-//			String interval2 = intervals.get(i+1);
-//			String chord = "";
-//			if (interval1.equals("major third") && interval2.equals("minor third")) {
-//				chord = "major triad";
-//			} else if (interval1.equals("minor third") && interval2.equals("major third")) {
-//				chord = "minor triad";
-//			} else if (interval1.equals("major third") && interval2.equals("major third")) {
-//				chord = "augmented triad";
-//			} else if (interval1.equals("minor third") && interval2.equals("minor third")) {
-//				chord = "diminished triad";
-//			}
-//			result.add(chord);
-//		}
-//		return result;
-//	}
-	
 	public boolean playNotes() {
 		boolean result = false;
 		if (!this.notes.isEmpty()) {
