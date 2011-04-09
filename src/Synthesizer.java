@@ -328,19 +328,16 @@ public class Synthesizer {
 			this.sustainLevel = 0.9f;
 		} // end if
 		if (time < decayStart) {
-			result = Math.exp(time*Math.log(this.maxVolume)/this.decayStart);
+			double slope = this.maxVolume/this.decayStart;
+			result = slope*time;
 		} else if ((time >= this.decayStart) && (time < this.sustainStart)) {
-			double a = this.maxVolume*Math.pow(this.sustainLevel,
-					this.decayStart/(this.decayStart-this.sustainStart));
-			double b = Math.log(this.maxVolume/a)/this.decayStart;
-			result = a*Math.exp(b*time);
+			double slope = this.maxVolume*(this.sustainLevel-1)/(this.sustainStart-this.decayStart);
+			result = slope*(time-this.decayStart)+this.maxVolume;
 		} else if ((time >= this.sustainStart) && (time < this.releaseStart)) {
 			result = this.maxVolume*this.sustainLevel;
 		} else {
-			double a = Math.pow(this.maxVolume*this.sustainLevel,
-					this.samples/(this.samples-this.releaseStart));
-			double b = -1*Math.log(a)/this.samples;
-			result = a*Math.exp(b*time);
+			double slope = -1*this.maxVolume*this.sustainLevel/(this.samples-this.releaseStart);
+			result = slope*(time-this.samples);
 		} // end if
 		return result;
 	} // end envelope
